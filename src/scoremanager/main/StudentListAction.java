@@ -1,6 +1,7 @@
 package scoremanager.main;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,8 +36,29 @@ public class StudentListAction extends Action{
 			ClassNumDao cNumDao = new ClassNumDao();//クラス番号Daoを初期化
 			Map<String,String> errors = new HashMap<>();//エラーメッセージ
 
-			//リクエストパラメータの取得
-			entYearStr = request
+			//リクエストパラメータの取得 2
+			entYearStr = request.getParameter("f1");
+			classNum = request.getParameter("f2");
+			isAttendStr = request.getParameter("f3");
+
+			//ビジネスロジック 4
+			if (entYearStr != null) {
+				entYear = Integer.parseInt(entYearStr);
+			}
+			// リストを初期化
+			List<Integer> entYearSet = new ArrayList<>();
+			// 10年前から1年後まで年をリストに追加
+			for(int i = year - 10; i < year + 1; i++) {
+				entYearSet.add(i);
+			}
+
+			List<String> list = cNumDao.filter(teacher.getschool());
+
+			if (entYear != 0 && !classNum.equals("0")){
+				students = sDao.filter(teacher.getschool(),entYear,classNum,isAttend);
+			} else if (entYear != 0 && classNum.equals("0")){
+
+			}
 	}
 
 }
